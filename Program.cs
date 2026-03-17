@@ -4,18 +4,40 @@
     {
         public static void Main()
         {
-            
-
-            Console.WriteLine();
+            //Weapon list
             Console.WriteLine("------------------------------------");
-            Console.WriteLine("CONTENT");
+            Console.WriteLine("COMPARETO/OBJECTCOMPARER");
             Console.WriteLine();
-            Caixa<int> caixaInts = new Caixa<int>(15);
-            caixaInts.ShowContent();
+            List<Weapon> weapons = new List<Weapon>();
 
-            Caixa<string> caixaString = new Caixa<string>("Test");
-            caixaString.ShowContent();
+            weapons.Add(new Weapon(25, 3.2f, "Charge rifle"));
+            weapons.Add(new Weapon(67, 4.2f, "r99"));
+            weapons.Add(new Weapon(40, 2.1f, "Plasma gun"));
 
+            foreach (var item in weapons)
+            {
+                Console.WriteLine(item); // aqui el toString() se autoimplementa, debido al override que le hemos hecho en la clase
+            }
+
+            weapons.Sort();
+
+            Console.WriteLine();
+            Console.WriteLine("---------------------------Orenated list(compareTo from class)---------------------------");
+
+            foreach (var item in weapons)
+            {
+                Console.WriteLine(item); // aqui el toString() se autoimplementa, debido al override que le hemos hecho en la clase
+            }
+
+            weapons.Sort(new WeaponComparer());
+
+            Console.WriteLine();
+            Console.WriteLine("---------------------------Orenated list(WeaponComparer)---------------------------");
+
+            foreach (var item in weapons)
+            {
+                Console.WriteLine(item); // aqui el toString() se autoimplementa, debido al override que le hemos hecho en la clase
+            }
         }
     }
 }
