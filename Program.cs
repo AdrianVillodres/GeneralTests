@@ -97,7 +97,7 @@
             Action<string> saludar = nom => Console.WriteLine($"Hola, {nom}!");
             saludar("Dalia");
 
-            //el <int, int, int>, los 2 primeros valores són de entrada y el 3 de salida
+            //el <int, int, int>, los 2 primeros valores són de entrada(se pueden meter más valores o menos, no hace falta que sean 2) y el 3 de salida
             Func<int, int, int> sumar = (a, b) => a + b;
             Console.WriteLine(sumar(3, 8));
 
