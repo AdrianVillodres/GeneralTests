@@ -2,8 +2,38 @@
 {
     public class Program
     {
+        public delegate int Metode(int x, int y); //parte del delegate
+
         public static void Main()
         {
+            //Listas etc etc etc
+            Person juan = new Person("Juan", 18);
+            Person laura = new Person("laura", 27);
+            Person adrian = new Person("adrian", 20);
+            List<Person> usuaris = new List<Person>();
+
+            usuaris.Add(juan);
+            usuaris.Add(laura);
+            usuaris.Add(adrian);
+            Console.Write("LISTAS");
+            Console.WriteLine();
+            foreach (var i in usuaris)
+            {
+                Console.WriteLine($"{i.Name} {i.Age}");
+            }
+            Console.WriteLine();
+
+            //Content
+            Console.WriteLine("------------------------------------");
+
+            Console.WriteLine("CONTENT");
+            Console.WriteLine();
+            Caixa<int> caixaInts = new Caixa<int>(15);
+            caixaInts.ShowContent();
+
+            Caixa<string> caixaString = new Caixa<string>("Test");
+            caixaString.ShowContent();
+
             //Weapon list
             Console.WriteLine("------------------------------------");
             Console.WriteLine("COMPARETO/OBJECTCOMPARER");
@@ -38,6 +68,104 @@
             {
                 Console.WriteLine(item); // aqui el toString() se autoimplementa, debido al override que le hemos hecho en la clase
             }
+            Console.WriteLine();
+
+
+            //Delegate
+            Console.WriteLine("------------------------------------");
+
+            Console.WriteLine("DELEGATE Y LAMBA EXPRESSIONS");
+            //Se declara el metodo Metode fuera del Main
+            //se crea un metodo AddMethod y PlusMethod fuera del main
+            
+            Metode suma = AddMethod; //NO ES DELEGATE!
+            Console.WriteLine(suma(3, 5));
+
+            Metode multi = PlusMethod; //NO ES DELEGATE!
+            Console.WriteLine(multi(3, 5));
+
+            //Version "primitiva" del delegate, abajo con el action y el func es más bonito
+            Metode op = delegate (int x, int y)
+            {
+                return x + y;
+            };
+            Console.WriteLine(op(3, 5));
+
+            //A partir de aqui viene a ser lo mismo que el delegate, són lambda expressions, igual pero más bonito, conviertes el metodo en una expresión lambda
+            
+            //el <string> es el valor de entrada
+            Action<string> saludar = nom => Console.WriteLine($"Hola, {nom}!");
+            saludar("Dalia");
+
+            //el <int, int, int>, los 2 primeros valores són de entrada y el 3 de salida
+            Func<int, int, int> sumar = (a, b) => a + b;
+            Console.WriteLine(sumar(3, 8));
+
+            //el <string, int>, primer valor de entrada, segundo de salida
+            Func<string, int> longitud = stg => stg.Length;
+            Console.WriteLine(longitud("Hola"));
+
+            Predicate<int> esParell = n => n % 2 == 0;
+            Console.WriteLine(esParell(4));
+            Console.WriteLine(esParell(7));
+
+
+            //LINQ
+            Console.WriteLine("------------------------------------");
+
+            Console.WriteLine("LINQ");
+
+            int[] scores = [97, 92, 81, 60];
+
+            var scoreQuery =
+                from score in scores
+                where score > 80
+                select score;
+
+            foreach(var score in scoreQuery)
+            {
+                Console.WriteLine(score);
+            }
+
+            IList<string> stringList = new List<string>()
+            {
+                "C# Tutorials",
+                "Learn C++",
+                "MVC Tutorials",
+                "Java"
+            };
+
+            var result =
+                from s in stringList
+                where s.Contains("Tutorials")
+                select s;
+
+            foreach(var item in result)
+            {
+                Console.WriteLine(item);
+            }
+
+            //En el Where se le pasan expresiones lambda
+            var result2 = stringList.Where(s => s.Contains("Tutorials"));
+            
+            foreach(var item in result2)
+            {
+                Console.WriteLine(item);
+            }
+        }
+
+
+
+
+        //parte del apartado delegate
+        public static int AddMethod(int x, int y)
+        {
+            return x + y;
+        }
+        //parte del apartado delegate
+        public static int PlusMethod(int x, int y)
+        {
+            return x * y;
         }
     }
 }
