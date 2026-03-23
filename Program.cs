@@ -39,7 +39,6 @@
             Console.WriteLine("COMPARETO/OBJECTCOMPARER");
             Console.WriteLine();
             List<Weapon> weapons = new List<Weapon>();
-
             weapons.Add(new Weapon(25, 3.2f, "Charge rifle"));
             weapons.Add(new Weapon(67, 4.2f, "r99"));
             weapons.Add(new Weapon(40, 2.1f, "Plasma gun"));
@@ -97,11 +96,11 @@
             Action<string> saludar = nom => Console.WriteLine($"Hola, {nom}!");
             saludar("Dalia");
 
-            //el <int, int, int>, los 2 primeros valores són de entrada(se pueden meter más valores o menos, no hace falta que sean 2) y el 3 de salida
+            //el <int, int, int>, los 2 primeros valores són de entrada(se pueden meter más valores o menos, no hace falta que sean 2) y el ultimo de salida
             Func<int, int, int> sumar = (a, b) => a + b;
             Console.WriteLine(sumar(3, 8));
 
-            //el <string, int>, primer valor de entrada, segundo de salida
+            //el <string, int>, primer valor de entrada, ultimo de salida
             Func<string, int> longitud = stg => stg.Length;
             Console.WriteLine(longitud("Hola"));
 
