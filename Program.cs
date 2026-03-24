@@ -103,7 +103,6 @@
             //el <string, int>, primer valor de entrada, ultimo de salida
             Func<string, int> longitud = stg => stg.Length;
             Console.WriteLine(longitud("Hola"));
-
             Predicate<int> esParell = n => n % 2 == 0;
             Console.WriteLine(esParell(4));
             Console.WriteLine(esParell(7));
@@ -151,6 +150,35 @@
             {
                 Console.WriteLine(item);
             }
+
+            //MapReduce
+            Console.WriteLine("------------------------------------");
+
+            Console.WriteLine("MAPREDUCE");
+            var testList = new List<int> { 1, 2, 3, 4, 5 };
+
+            var resultSelect = testList.Select(x => x * 2); //Multiplica el resultado X2
+
+            foreach(var item in testList)
+            {
+                Console.Write($"{item} ");
+            }
+            Console.WriteLine();
+            foreach(var item in resultSelect)
+            {
+                Console.Write($"{item} ");
+            }
+            Console.WriteLine();
+            var filtre = testList.Where(x => x % 2 == 0); //Mira si son pares
+            Console.WriteLine();
+            foreach (var item in filtre)
+            {
+                Console.Write($"{item} ");
+            }
+            Console.WriteLine();
+
+            var agg = testList.Aggregate((x, y) => x + y); //suma todos los valores de la lista
+            Console.WriteLine(agg);
         }
 
 
