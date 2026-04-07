@@ -1,4 +1,7 @@
-﻿namespace ForGeneralTests
+﻿using System.Collections.Concurrent;
+using System.Runtime.InteropServices;
+
+namespace ForGeneralTests
 {
     public class Program
     {
@@ -103,6 +106,7 @@
             //el <string, int>, primer valor de entrada, ultimo de salida
             Func<string, int> longitud = stg => stg.Length;
             Console.WriteLine(longitud("Hola"));
+
             Predicate<int> esParell = n => n % 2 == 0;
             Console.WriteLine(esParell(4));
             Console.WriteLine(esParell(7));
@@ -179,6 +183,79 @@
 
             var agg = testList.Aggregate((x, y) => x + y); //suma todos los valores de la lista
             Console.WriteLine(agg);
+
+            //Repaso
+            Console.WriteLine("------------------------------------");
+            List<Employee> employees = new List<Employee>() {
+                new Employee {Id = 1, Name = "Dalia", HireDate = new DateTime(2015, 6, 15), Salary = 30000, Department = "IT"},
+                new Employee {Id = 2, Name = "Wadanohara", HireDate = new DateTime(2015, 6, 16), Salary = 31000, Department = "Marketing" },
+                new Employee {Id = 3, Name = "Verone", HireDate = new DateTime(2015, 6, 17), Salary = 32000, Department = "RRHH" },
+                new Employee {Id = 4, Name = "Yonaka", HireDate = new DateTime(2015, 6, 18), Salary = 33000, Department = "IT" },
+                new Employee {Id = 5, Name = "Satsuki", HireDate = new DateTime(2015, 6, 19), Salary = 34000, Department = "IT" }
+            };
+            employees.ForEach(e => Console.WriteLine(e.ToString()));
+            
+            List<SalesEmployee> semployees = new List<SalesEmployee>() {
+                new SalesEmployee {Id = 6, Name = "Iwara", HireDate = new DateTime(2015, 6, 15), Salary = 30000, Department = "IT", SalesAmount = 3000, SalesCount = 30 },
+                new SalesEmployee {Id = 7, Name = "Yuki", HireDate = new DateTime(2015, 6, 16), Salary = 31000, Department = "Marketing", SalesAmount = 2000, SalesCount = 20  },
+                new SalesEmployee {Id = 8, Name = "Aria", HireDate = new DateTime(2015, 6, 17), Salary = 32000, Department = "RRHH", SalesAmount = 4500, SalesCount = 45  },
+                new SalesEmployee {Id = 9, Name = "Himeko", HireDate = new DateTime(2015, 6, 18), Salary = 33000, Department = "IT", SalesAmount = 1000, SalesCount = 10  },
+                new SalesEmployee {Id = 10, Name = "Matsuri", HireDate = new DateTime(2015, 6, 19), Salary = 34000, Department = "IT", SalesAmount = 10000, SalesCount = 100  }
+            };
+            semployees.ForEach(se => Console.WriteLine(se.ToString()));
+
+            employees.ForEach(e => e.Salary *= 1.10m);
+            employees.ForEach(e => Console.WriteLine(e.ToString()));
+
+            foreach(var employee in employees)
+            {
+                Console.WriteLine(employee.ToString());
+            }
+
+            semployees.ForEach(se => se.SalesCount += 1);
+            semployees.ForEach(se => Console.WriteLine(se.ToString()));
+
+            Employee firstEmployee = employees.First(e => e.Department == "IT");
+            Console.WriteLine($"El primer empleat es {firstEmployee.Name}");
+            Employee unknownEmployee = employees.FirstOrDefault(e => e.Department == "Logistica");
+            if (unknownEmployee == null) Console.WriteLine("No hi ha empleats d'aquest departament");
+
+            Employee isEmployee = employees.Single(e => e.Id == 1);
+            Console.WriteLine($"ID: {isEmployee.Name}");
+
+            Employee nonExistentEmployee = employees.SingleOrDefault(e => e.Id == 35);
+            if (nonExistentEmployee == null) Console.WriteLine("No existe el empleado");
+
+            bool hasSalesEmployees = employees.Any(e => e.Department == "Ventes");
+            Console.WriteLine(hasSalesEmployees ? "Hay empleados en ventas" : "No hay empleados en ventas");
+            
+            bool hasSalesEmployeesRRHH = employees.Any(e => e.Department == "RRHH");
+            Console.WriteLine(hasSalesEmployeesRRHH ? "Hay empleados en RRHH" : "No hay empleados en RRHH");
+
+            bool tenYearsEmployee = employees.Any(e => e.HireDate.Year <= DateTime.Now.Year - 10);
+            Console.WriteLine(tenYearsEmployee ? "Hay empleados de mas de diez años" : "No hay empleados de mas de diez años");
+
+            Func<Employee, int> calculateSeniority = e => DateTime.Now.Year - e.HireDate.Year;
+            bool hasSeniorEmployees = employees.Any(e => calculateSeniority(e) > 10);
+            Console.WriteLine(hasSeniorEmployees ? "Hay empleados de mas de diez años" : "No hay empleados de mas de diez años");
+
+            List<string> employeesNames = employees.Select(e => e.Name).ToList();
+
+            List<Employee> highSalaryEmployees = employees.Where(e => e.Salary > 30000).ToList();
+            highSalaryEmployees.ForEach(e => Console.WriteLine(e.Name));
+
+            var employeeByDepartment = employees.GroupBy(e => e.Department);
+            foreach(var group in employeeByDepartment)
+            {
+                Console.WriteLine($"Department: {group.Key}");
+                group.ToList().ForEach(e => Console.WriteLine($" - {e.Name}"));
+            }
+
+
+
+            //
+            Console.WriteLine("------------------------------------");
+
         }
 
 
